@@ -6,7 +6,7 @@
                 <div class="collapse navbar-collapse" id="mainNavbar">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a href="dashboard.php" class="nav-link active text-light">Dashboard</a>
+                            <a href="/nice_school/admin/dashboard.php" class="nav-link active text-light">Dashboard</a>
                         </li>
                     </ul>
                 </div>

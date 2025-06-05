@@ -3,6 +3,17 @@
 error_reporting(E_ALL);
 ini_set('display_errors',1);
 // Configurations
+include_once '/var/www/html/nice_school/controls/controller.php';
+// funtion that will be used to sanitize inputs
+
+function sanitize_input($text){
+    $text = trim($text);
+    $text = stripslashes($text);
+    $text = strip_tags($text);
+    $text = htmlspecialchars($text);
+
+    return $text;
+}
 
 class NiceSchool {
 
@@ -43,6 +54,13 @@ class NiceSchool {
         }
     }
 
+}
+
+function add_alumna($names, $email, $gender, $proffesional, $awards, $profile_year, $profile_picture, $description){
+    global $conn;
+$stmt = $conn -> prepare("INSERT INTO `alumni`(`profile_year`, `names`,`gender`, `email`, `professional`, `description`, `award`, `profile_picture`) VALUES (?,?,?,?,?,?,?)");
+$stmt->bind_param("ssssssss", $profile_year, $names, $email, $gender, $proffesional, $description, $awards, $profile_picture);
+$stmt->execute();
 }
 
 ?>
