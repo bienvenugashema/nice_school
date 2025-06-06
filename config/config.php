@@ -7,11 +7,17 @@ $user = "root";
 $password = "php123";
 $database = "nice_school";
 
-$conn = mysqli_connect($host, $user, $password, $database);
+$dsn = "mysql:host=$host;dbname=$database;charset=utf8mb4";
 
-if($conn -> connect_error ) {
-    die("Connection failed: " . $conn->connect_error);
+$options = [
+    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+];
+
+try{
+$conn = new PDO($dsn, $user, $password, $options);
+} catch (PDOException $e){
+    die("Database connection failed:" . $e->getMessage());
 }
-
 
 ?>

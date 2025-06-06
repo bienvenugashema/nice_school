@@ -34,9 +34,9 @@ include_once '../../config/config.php';
                     $stmt = $conn -> prepare("select * from alumni");
                     $stmt -> execute();
 
-                    $result = $stmt -> get_result();
+                    $results = $stmt -> fetchAll();
                     $count = 0;
-                    while($row = $result->fetch_assoc()){
+                    foreach($results as $result){
                         $count++;
                         ?>
                         <tr>
@@ -44,28 +44,28 @@ include_once '../../config/config.php';
                                 <?php echo $count;?>
                             </td>
                             <td>
-                                <?php echo $row['names']; ?>
+                                <?php echo $result['names']; ?>
                             </td>
                             
                             <td>
-                                <?php echo $row['email']; ?>
+                                <?php echo $result['email']; ?>
                             </td>
                             <td>
-                            <?php echo $row['gender']; ?>
+                            <?php echo $result['gender']; ?>
                             </td>
                             <td>
-                                <?php echo $row['profile_year']; ?>
+                                <?php echo $result['profile_year']; ?>
                             </td>
                             <td>
-                                <?php echo $row['professional'] ?> 
+                                <?php echo $result['professional'] ?> 
                             </td>
                             <td>
-                                <img src="<?php echo $row['profile_picture'] ?>" width="30" style="border-radius: 10px"/>
+                                <img src="<?php echo $result['profile_picture'] ?>" width="30" style="border-radius: 10px"/>
                             </td>
                             <td>
-                                <a href="edit_alumna.php?id=<?php echo $row['id'];?>" class="text-primary">Edit</a>
-                                <a href="delete_alumna.php?id=<?php echo $row['id']; ?>" class="text-danger">Delete</a>
-                                <a href="view_alumna.php?id=<?php echo $row['id']; ?>" class="text-warning">View</a>
+                                <button class="btn btn-primary btn-sm" onclick="loadContent(<?php echo $result['id'];?>)" class="text-primary">Edit</button>
+                                <a href="delete_alumna.php?id=<?php echo $result['id']; ?>" class="text-danger">Delete</a>
+                                <a href="view_alumna.php?id=<?php echo $result['id']; ?>" class="text-warning">View</a>
                             </td>
                         </tr>
                         <?php
@@ -73,7 +73,24 @@ include_once '../../config/config.php';
                     ?>
                 </table>
             </div>
+            <div class="mt-4 p-4 border rounded shadow" id="disply" style="min-height: 100px; display: none;"></div>
             </div>
+            <script>
+                function loadContent(id) {
+                    const xhr = new XMLHttpRequest();
+                    xhr.open("POST", "get-content.php", true);
+                    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                    xhr.onload = function () {
+                        const displDiv = document.getElementById("disply");
+                        displDiv.innerHTML = this.responseText;
+
+                        displDiv.style.display = "block";
+
+                    }
+                    xhr.send("id=" + id);
+                }
+            </script>
         </div>
+
     </body>
 </html>

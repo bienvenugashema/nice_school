@@ -31,10 +31,12 @@ session_start();
                 </tr>
                 
                 <?php 
-                $select_response = mysqli_query($conn, "select * from request_info");
-                if (mysqli_num_rows($select_response) > 0) {
+                $stmt = $conn -> prepare("select * from request_info");
+                $stmt->execute();
+                $users = $stmt -> fetchAll();
+                if ($users) {
                     $count = 0;
-                    while ($row = mysqli_fetch_assoc($select_response)){
+                    foreach ($users as $row){
                         $count += 1;
                     ?>
                     <tr>

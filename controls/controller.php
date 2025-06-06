@@ -20,14 +20,15 @@ class NiceSchool {
     public static function comment($names, $email, $phone, $program, $comment){
         include 'config/config.php';
 
-        $inser_info = mysqli_query($conn, "INSERT INTO `request_info`(`names`, `email`, `phone_number`, `program`, `comment`) VALUES ('$names','$email','$phone','$program','$comment')");
-        if ($inser_info){
-            $_SESSION['message'] = "Request Sent Well";
-            echo '<script> alert("Request Sent")</script>';
-        } else {
-            $_SESSION['message'] = "Failed to send request";
-            echo "failes user";
-        }
+        $stmt = $conn -> prepare("INSERT INTO `request_info`(`names`, `email`, `phone_number`, `program`, `comment`) VALUES (?,?,?,?,?)");
+        $stmt->execute([$names,$email,$phone,$program,$comment]);
+        // if ($inser_info){
+        //     $_SESSION['message'] = "Request Sent Well";
+        //     echo '<script> alert("Request Sent")</script>';
+        // } else {
+        //     $_SESSION['message'] = "Failed to send request";
+        //     echo "failes user";
+        // }
     }
 
     public  function login($email, $pass) {
@@ -58,9 +59,8 @@ class NiceSchool {
 
 function add_alumna($names, $email, $gender, $proffesional, $awards, $profile_year, $profile_picture, $description){
     global $conn;
-$stmt = $conn -> prepare("INSERT INTO `alumni`(`profile_year`, `names`,`gender`, `email`, `professional`, `description`, `award`, `profile_picture`) VALUES (?,?,?,?,?,?,?)");
-$stmt->bind_param("ssssssss", $profile_year, $names, $email, $gender, $proffesional, $description, $awards, $profile_picture);
-$stmt->execute();
+$stmt = $conn -> prepare("INSERT INTO `alumni`(`profile_year`, `names`,`gender`, `email`, `professional`, `description`, `award`, `profile_picture`) VALUES (?,?,?,?,?,?,?,?)");
+$stmt->execute([$profile_year, $names, $email, $gender, $proffesional, $description, $awards, $profile_picture]);
 }
 
 ?>

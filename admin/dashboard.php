@@ -30,26 +30,27 @@ include_once '../config/config.php';
                 <div class="m-2">
                     <p class="text-left" style="font-size: large;"><b>Total Request: </b>
                     <?php 
-                    $select_count = "select count(*) AS total_requests FROM request_info";
-                    $res = mysqli_query($conn, $select_count);
-                    $row = mysqli_fetch_assoc($res);
+                    $stmt = $conn -> query("select count(*) AS total_requests FROM request_info");
+                    $row = $stmt -> fetch();
                     echo $row['total_requests'];
                     ?>
                     </p>
                     <p style="font-size:large;"><b>Pending requests:</b>
                         <?php 
-                        $select_status = "select count(*) AS total_pending from request_info where status='pending'";
-                        $res = mysqli_query($conn, $select_status);
-                        $row = mysqli_fetch_assoc($res);
+                        $pending = 'pending';
+                        $stmt = $conn -> prepare("select count(*) AS total_pending from request_info where status=?");
+                        $stmt->execute([$pending]);
+                        $row = $stmt -> fetch();
                         echo $row['total_pending'];
                         ?>
                     </p>
 
                     <p style="font-size: large;"><b>Solved requests:</b>
                         <?php 
-                        $select_status = "select count(*) AS total_solved from request_info where status='solved'";
-                        $res = mysqli_query($conn, $select_status);
-                        $row = mysqli_fetch_assoc($res);
+                        $stmt =  $conn -> prepare("select count(*) AS total_solved from request_info where status=?");
+                        $solved = 'solved';
+                        $stmt->execute([$solved]);
+                        $row = $stmt -> fetch();
                         echo $row['total_solved'];
                         ?>
                     </p>

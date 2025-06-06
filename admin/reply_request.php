@@ -29,9 +29,10 @@ if(isset($_GET['id'])){
     <div class="container">
     <div class="box">
         <?php 
-        $get_user = mysqli_query($conn, "select * from request_info where id='$id'");
-        $row = mysqli_fetch_assoc($get_user);
-        if($get_user && mysqli_num_rows($get_user) > 0){
+        $stmt = $conn -> prepare("select * from request_info where id=?");
+        $stmt->execute([$id]);
+        $row = $stmt -> fetch();
+        if($row){
         ?>
         <div class="info m-5 p-10">
             <b>Names:</b> <p><?php echo $row['names']; ?></p>
@@ -53,14 +54,13 @@ if(isset($_GET['id'])){
                 $message = strip_tags($_POST['reply_comment']);
                 $solved = 'solved';
                 $stmt = $conn->prepare("update request_info set status= ?, reply = ? WHERE id= ? ");
-                $stmt->bind_param("ssi", $solved, $message, $id);
-                if($stmt->execute()){
+                if($stmt->execute([$solved,$message,$id])){
                     echo "<script>alert('Reply Sent');
                         window.location.href='view_response.php'
                     </script>";
                     
                 }
-                $stmt->close();
+                exit;
             }
             ?>
         </div>
