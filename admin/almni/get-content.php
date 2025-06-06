@@ -11,11 +11,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id'])){
         $_SESSION['user_id'] = $row['id'];
         echo "
         <div>
-         <form action=''>
-         <div class='mb-3 mt-4'>
-            <b>Names:</b> <input type='text' value=' ". $row['names'] . " '/>
-            <b>Emails:</b> <input type='text' class='form-conrol' value=' ". $row['email'] . " '/>
-            <b>Gender:</b> <select name='gender'>
+        
+         <div class='mb-3 mt-4' method='post'>
+            <b>Names:</b> <input type='text' id='names' value=' ". $row['names'] . " '/>
+            <b>Email:</b> <input type='text' id='email' class='form-conrol' value=' ". $row['email'] . " '/>
+            <b>Gender:</b> <select  id='gender'>
                 <option values='". $row['gender'] . "'>
                 ".$row['gender']."
                 </option>
@@ -24,18 +24,19 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id'])){
             </select>
         </div>    
             <div class='mb-3 mt-4'>
-            <b>Proffesion:</b> <input type='text' value=' ". $row['professional'] . " '/>
-            <b>Awards:</b> <input type='text' class='form-conrol' value=' ". $row['award'] . " '/>
-            <b>Profile Year:</b>  <input type='number' class='form-conrol' value=' ". $row['profile_year'] . " '/>
+            <b>Proffesion:</b> <input type='text' id='proffesion' value=' ". $row['professional'] . " '/>
+            <b>Awards:</b> <input type='text' id='awards' class='form-conrol' value=' ". $row['award'] . " '/>
+            <b>Profile Year:</b>  <input type='number' id='profile_year' class='form-conrol' value=' ". $row['profile_year'] . " '/>
         </div> 
          <div class='mb-3 mt-4'>
             <b>Description:</b><br/>
-             <textarea />". $row['description'] . " </textarea>
+             <textarea id='description'>". $row['description'] . " </textarea>
         </div> 
         <div>
-            <button type='submit' class='btn btn-primary'>Update Alumni</button>
+            <button type='submit' id='updated' class='btn btn-primary'>Update Alumni</button>
         </div>
-        </form>
+        
+        ".$_SESSION['user_id']."
         </div>
         ";
     } else {

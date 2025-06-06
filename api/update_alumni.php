@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 header("Content-Type: application/json");
 
 require_once '../config/config.php';
@@ -21,12 +21,10 @@ $description = trim($input['description']);
 $awards = trim($input['awards']);
 $user_id = $_SESSION['user_id'];
 
-if(!$names || !$email){
-    echo json_encode(['message'=>"Name and Email are required"]);
-    exit;
-}
-
 try{
     $stmt = $conn -> prepare("UPDATE `alumni` SET `profile_year`=?,`names`=?,`email`=?,`gender`=?,`professional`=?,`description`=?,`award`=?, WHERE id=?");
-    $stmt->execute([]);
-} catch ()
+    $stmt->execute([$profile_year,$names,$email,$gender,$proffesion,$description,$awards,$user_id]);
+    echo json_encode(['message' => "Ok"]);
+} catch (PDOException  $e){
+    echo json_encode(['message'=>"Error" . $e->getMessage()]);
+}

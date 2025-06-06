@@ -63,7 +63,7 @@ include_once '../../config/config.php';
                                 <img src="<?php echo $result['profile_picture'] ?>" width="30" style="border-radius: 10px"/>
                             </td>
                             <td>
-                                <button class="btn btn-primary btn-sm" onclick="loadContent(<?php echo $result['id'];?>)" class="text-primary">Edit</button>
+                                <button class="btn btn-primary btn-sm editBtn" onclick="loadContent(<?php echo $result['id'];?>)" class="text-primary">Edit</button>
                                 <a href="delete_alumna.php?id=<?php echo $result['id']; ?>" class="text-danger">Delete</a>
                                 <a href="view_alumna.php?id=<?php echo $result['id']; ?>" class="text-warning">View</a>
                             </td>
@@ -73,21 +73,53 @@ include_once '../../config/config.php';
                     ?>
                 </table>
             </div>
-            <div class="mt-4 p-4 border rounded shadow" id="disply" style="min-height: 100px; display: none;"></div>
+            <div class="mt-4 p-4 border rounded shadow" id="disply" style="min-height: 100px; display: none;">                
+            </div>
             </div>
             <script>
+                
                 function loadContent(id) {
                     const xhr = new XMLHttpRequest();
                     xhr.open("POST", "get-content.php", true);
                     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                     xhr.onload = function () {
                         const displDiv = document.getElementById("disply");
-                        displDiv.innerHTML = this.responseText;
-
+                        displDiv.innerHTML = `
+                        <p id='message'></p>
+                        <form id='edit_alumna_form' id='form' method='post'>
+                    ${this.responseText}
+                </form>`
+                edit_alumna()
                         displDiv.style.display = "block";
 
                     }
                     xhr.send("id=" + id);
+                }
+                function edit_alumna(){
+                    document.getElementById('edit_alumna_form').addEventListener('submit', function(e){
+                        e.preventDefault();
+
+                        const data = {
+                            names: document.getElementById('names'),
+                            email: document.getElementById('email'),
+                            gender: document.getElementById('gender'),
+                            proffesion: document.getElementById('proffesion'),
+                            awards: document.getElementById('awards'),
+                            profile_year: document.getElementById('profile_year'),
+                            description: document.getElementById('description')
+                        };
+                        fetch('../../api/update_alumni.php', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type':'application/json'
+                            },
+                            body: JSON.stringify(data)
+                        })
+                        .then(res => res.json())
+                        .then(data => {
+                            document.getElementById('message').innerHTML = data.message;
+                        })
+                    })
                 }
             </script>
         </div>
