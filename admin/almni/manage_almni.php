@@ -14,44 +14,35 @@ include_once '../../config/config.php';
                     <li><a href="create_alumna.php">Create New Alumna</a></li>
                 </ul>
             </div>
-            <table class="table">
-                <tr>
-                    <th>ID</th><th>Names</th><th>Email</th><th>Gender</th>
-                    <th>Profile Year</th><th>Profession</th><th>Profile Picture</th><th>Actions</th>
-                </tr>
-                <?php 
-                $stmt = $conn->prepare("SELECT * FROM alumni");
-                $stmt->execute();
-                $results = $stmt->fetchAll();
-                $count = 0;
-                foreach ($results as $result) {
-                    $count++;
-                    ?>
-                    <tr>
-                        <td><?= $count; ?></td>
-                        <td><?= $result['names']; ?></td>
-                        <td><?= $result['email']; ?></td>
-                        <td><?= $result['gender']; ?></td>
-                        <td><?= $result['profile_year']; ?></td>
-                        <td><?= $result['professional']; ?></td>
-                        <td>
-                            <img src="<?= $result['profile_picture']; ?>" width="30" style="border-radius: 10px"/>
-                        </td>
-                        <td>
-                            <button class="btn btn-primary btn-sm" onclick="loadContent(<?= $result['id']; ?>)">Edit</button>
-                            <a href="delete_alumna.php?id=<?= $result['id']; ?>" class="text-danger">Delete</a>
-                            <a href="view_alumna.php?id=<?= $result['id']; ?>" class="text-warning">View</a>
-                        </td>
-                    </tr>
-                    <?php
-                }
-                ?>
-            </table>
+            <div id="dispyTable"></div>
             <div class="mt-4 p-4 border rounded shadow" id="form-container" style="min-height: 100px; display: none;"></div>
         </div>
     </div>
 
     <script>
+        window.onload = function() {
+            load_tabler();
+        };
+        function load_tabler() {
+            const xhr = new XMLHttpRequest();
+            xhr.open("GET", "load-dat.php", true);
+            xhr.onload = function () {
+                if (this.status === 200) {
+                    document.getElementById("dispyTable").innerHTML = this.responseText;
+                    const buttons = document.querySelectorAll("button");
+                    buttons.forEach(button => {
+                        button.addEventListener("click", function() {
+                            const id = this.getAttribute("data-id");
+                            // loadContent(id);
+                        });
+                    });
+                } else {
+                    console.error("Failed to load data:", this.statusText);
+                }
+            };
+            xhr.send();
+        }
+
         function loadContent(id) {
             const xhr = new XMLHttpRequest();
             xhr.open("POST", "get-content.php", true);
@@ -69,6 +60,7 @@ include_once '../../config/config.php';
         }
 
         function edit_alumna() {
+            
             const form = document.getElementById('edit_alumna_form');
             if (!form) return;
 
@@ -97,6 +89,11 @@ include_once '../../config/config.php';
                     try {
                         const json = JSON.parse(text);
                         document.getElementById("message").innerText = json.message;
+                        if (response.ok) {
+                            load_tabler(); // Reload the table after successful update
+                        } else {
+                            console.error("Error:", json.message);
+                        }
                     } catch (e) {
                         console.error("JSON parse error:", e.message);
                     }
