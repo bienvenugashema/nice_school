@@ -13,12 +13,11 @@ echo " <table class='table'>
                 </tr>";
 
                 foreach ($results as $result) {
-                    $count++;
+                
 
                     echo "<tr>";
 
                 echo "<td>" . $result['id'] . "</td>";
-                echo "<td>" . $count . "</td>";
                 echo "<td>" . $result['names'] . "</td>";
                 echo "<td>" . $result['email'] . "</td>";
                 echo "<td>" . $result['gender'] . "</td>";

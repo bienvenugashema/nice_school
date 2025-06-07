@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id'])) {
             <input type='text' id='email' class='form-control' value='" . htmlspecialchars($row['email']) . "' />
             <label><b>Gender:</b></label>
             <select id='gender' class='form-control'>
-                <option value='" . htmlspecialchars($row['gender']) . "' selected>" . ucfirst($row['gender']) . "</option>
+                <option value='" . htmlspecialchars($row['gender'] ?? "") . "' selected>" . ucfirst($row['gender'] ?? "") . "</option>
                 <option value='male'>Male</option>
                 <option value='female'>Female</option>
             </select>
@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id'])) {
             <textarea id='description' class='form-control'>" . htmlspecialchars($row['description']) . "</textarea>
         </div>
         <div>
-            <button type='submit' class='btn btn-primary'>Update Alumni</button>
+            <button type='submit' class='btn btn-primary' onclick=\"showLoader()\"> <img src='../../assets/img/loading.gif' id='loader' alt='Loader' width='30' hidden/> Update Alumni</button>
         </div>";
     } else {
         echo "User not found";

@@ -18,7 +18,7 @@ include_once '../../config/config.php';
             <div class="mt-4 p-4 border rounded shadow" id="form-container" style="min-height: 100px; display: none;"></div>
         </div>
     </div>
-
+    
     <script>
         window.onload = function() {
             load_tabler();
@@ -44,6 +44,7 @@ include_once '../../config/config.php';
         }
 
         function loadContent(id) {
+            
             const xhr = new XMLHttpRequest();
             xhr.open("POST", "get-content.php", true);
             xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -58,9 +59,11 @@ include_once '../../config/config.php';
             };
             xhr.send("id=" + id);
         }
-
+        function showLoader() {
+            const loader = document.getElementById("loader");
+            loader.hidden = false;
+        }
         function edit_alumna() {
-            
             const form = document.getElementById('edit_alumna_form');
             if (!form) return;
 
@@ -88,9 +91,18 @@ include_once '../../config/config.php';
                     const text = await response.text();
                     try {
                         const json = JSON.parse(text);
-                        document.getElementById("message").innerText = json.message;
+                        setTimeout(() => {
+                            document.getElementById("message").innerText = json.message;
+                        }, 3000)
                         if (response.ok) {
-                            load_tabler(); // Reload the table after successful update
+                            load_tabler();
+                            const disableForm = document.getElementById("form-container");
+                            const loader = document.getElementById("loader");
+                            setTimeout(() => {
+                                loader.hidden = true;
+                                disableForm.style.display = "none";
+                            }, 5000);
+                            
                         } else {
                             console.error("Error:", json.message);
                         }
