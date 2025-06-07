@@ -39,6 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id'])) {
         </div>
         <div>
             <button type='submit' class='btn btn-primary' onclick=\"showLoader()\"> <img src='../../assets/img/loading.gif' id='loader' alt='Loader' width='30' hidden/> Update Alumni</button>
+            <button type='submit' class='btn btn-secondary' onclick=\"closeDiv()\">Ignore Edit</button>
         </div>";
     } else {
         echo "User not found";

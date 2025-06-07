@@ -27,9 +27,9 @@ echo " <table class='table'>
                             <img src=\"" . $result['profile_picture'] . "\" width=\"30\" style=\"border-radius: 10px\"/>
                         </td>";
                 echo "<td>";
-                echo "<button class=\"btn btn-primary btn-sm\" onclick=\"loadContent(" . $result['id'] . ")\">Edit</button>";
-                echo "<a href=\"delete_alumna.php?id=" . $result['id'] . "\" class=\"text-danger\">Delete</a>";
-                echo "<a href=\"view_alumna.php?id=" . $result['id'] . "\" class=\"text-warning\">View</a>";
+                echo "<button class=\"btn btn-primary btn-sm\" onclick=\"loadContent(" . $result['id'] . ")\">Edit</button>&nbsp;";
+                echo "<button class=\"btn btn-sm btn-warning\" onclick=\"view_alumni_info(" . $result['id'] . ")\">View</button>&nbsp;";
+                echo "<button class=\"btn btn-sm btn-danger\" onclick=deleteAlumni(".$result['id'].")>Delete</a>";
                 echo "</td>";
                 echo "</tr>";
             }

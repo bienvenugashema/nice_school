@@ -3,7 +3,7 @@
 error_reporting(E_ALL);
 ini_set('display_errors',1);
 // Configurations
-include_once '/var/www/html/nice_school/controls/controller.php';
+include __DIR__ . '/../config/config.php';
 // funtion that will be used to sanitize inputs
 
 function sanitize_input($text){
@@ -51,7 +51,7 @@ class NiceSchool {
             $_SESSION['error'] = "Invalid Email or Password";
         }}
          else {
-            echo "Failed to get content";
+            echo "Un able to get the content";
         }
     }
 

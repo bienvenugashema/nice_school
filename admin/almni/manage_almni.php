@@ -42,6 +42,40 @@ include_once '../../config/config.php';
             };
             xhr.send();
         }
+        function deleteAlumni(id) {
+            fetch("/nice_school/api/delete_alumni.php",
+                {
+                    method: "DELETE",
+                    headers: {
+                        "Conteny-Type":"application/json"
+                    },
+                    body: JSON.stringify({id: id})
+                }
+            )
+            .then(response => response.json())
+            .then(data => alert(data.message))
+            .catch(error => console.log("Error: ", error))
+        }
+        function view_alumni_info(id){
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST",'/nice_school/api/vie_alumni.php', true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.onload = function() {
+                const displDiv = document.getElementById("form-container");
+                displDiv.innerHTML = `
+                ${this.responseText}
+                `
+                displDiv.style.display = "block";
+            }
+            xhr.send("id=" + id)
+        }
+
+
+
+        function closeDiv(){
+                const displDiv = document.getElementById("form-container");
+                displDiv.style.display = "None";
+        }
 
         function loadContent(id) {
             
