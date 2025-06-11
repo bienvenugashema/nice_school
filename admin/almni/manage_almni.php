@@ -52,7 +52,23 @@ include_once '../../config/config.php';
                     body: JSON.stringify({id: id})
                 }
             )
-            .then(response => response.json())
+            .then( async (response) => {
+                    const text = await response.text();
+                try{
+                    const json = JSON.parse(text)
+                    if(response.ok){
+                        setTimeout(() => {
+                            alert(json.message)
+                        }, 2000)
+                        setTimeout(() => {
+                            load_tabler()
+                        }, 3000)
+                    }
+                } catch {
+                    console.error()
+                }
+                response.json()
+            })
             .then(data => alert(data.message))
             .catch(error => console.log("Error: ", error))
         }

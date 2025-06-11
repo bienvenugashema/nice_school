@@ -5,7 +5,7 @@ require_once '../../config/config.php';
 $stmt = $conn->prepare('SELECT * FROM alumni');
 $stmt->execute();
 $results = $stmt->fetchAll();
-$count = 0;
+$count = 1;
 echo " <table class='table'>
                 <tr>
                     <th>ID</th><th>Names</th><th>Email</th><th>Gender</th>
@@ -17,7 +17,7 @@ echo " <table class='table'>
 
                     echo "<tr>";
 
-                echo "<td>" . $result['id'] . "</td>";
+                echo "<td>" . $count++ . "</td>";
                 echo "<td>" . $result['names'] . "</td>";
                 echo "<td>" . $result['email'] . "</td>";
                 echo "<td>" . $result['gender'] . "</td>";

@@ -60,7 +60,7 @@ class NiceSchool {
 function add_alumna($names, $email, $gender, $proffesional, $awards, $profile_year, $profile_picture, $description){
     global $conn;
 $stmt = $conn -> prepare("INSERT INTO `alumni`(`profile_year`, `names`,`gender`, `email`, `professional`, `description`, `award`, `profile_picture`) VALUES (?,?,?,?,?,?,?,?)");
-$stmt->execute([$profile_year, $names, $email, $gender, $proffesional, $description, $awards, $profile_picture]);
+$stmt->execute([$profile_year, $names, $gender, $email, $proffesional, $description, $awards, $profile_picture]);
 }
 
 ?>
